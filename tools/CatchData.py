@@ -13,59 +13,56 @@ import os
 import os.path
 import datetime
 
-TEST_NAME = "AAPL"
-HISTORY_DATA_URL = "https://ca.finance.yahoo.com/q/hp?s="
 ROOT_DIRECTORY = "./../"
 DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
-TMP_DIRECTORY = ROOT_DIRECTORY + "./tmp/"
-CACHE_FILE = TMP_DIRECTORY + "cache"
-TD_CLASS = "yfnc_tabledata1"
 HISTORY_DATA_CSV_URL_DOMAIN = "http://real-chart.finance.yahoo.com/table.csv?s="
 
 class CatchData:
-	def init(self):
-		return
-
 #
 # Catch history price of a given stock with given period
 #
-	def catchByNameAndDate(self, stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay):
+	@staticmethod
+	def catchByNameAndDate(stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay):
 		fileName = DATA_DIRECTORY + stock_name + ".csv"
-		self.catchByNameToSpecificFile(stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName)
+		CatchData.catchByNameToSpecificFile(stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName)
 
 #
 # Catch history price of a given stock with given period and store the data to a file with given file name
 #
-	def catchByNameAndDateToSpecificFile(self, stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName):
+	@staticmethod
+	def catchByNameAndDateToSpecificFile(stock_name, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName):
 		urlOfPage = HISTORY_DATA_CSV_URL_DOMAIN + stock_name + "&d=" + str(toMonth - 1) + "&e=" + str(toDay) + "&f=" + str(toYear) + "&g=d&a=" + str(fromMonth - 1) + "&b=" + str(fromDay) + "&c=" + str(fromYear) + "&ignore=.csv"
-		self.catchByURL(urlOfPage, fileName)
+		CatchData.catchByURL(urlOfPage, fileName)
 
 #
 # Catch history price of a given stock up to now
 #
-	def catchByName(self, stock_name):
+	@staticmethod
+	def catchByName(stock_name):
 		fileName = DATA_DIRECTORY + stock_name + ".csv"
-		self.catchByNameToSpecificFile(stock_name, fileName)
+		CatchData.catchByNameToSpecificFile(stock_name, fileName)
 
 #
 # Catch history price of a given stock up to now and store the data to a file with given file name
 #
-	def catchByNameToSpecificFile(self, stock_name, fileName):
+	@staticmethod
+	def catchByNameToSpecificFile(stock_name, fileName):
 		now = datetime.datetime.now()
-		self.catchByNameAndDateToSpecificFile(stock_name, 1980, 12, 12, now.year, now.month, now.day, fileName)
+		CatchData.catchByNameAndDateToSpecificFile(stock_name, 1980, 12, 12, now.year, now.month, now.day, fileName)
 
 #
 # Store the content with given url to a file with given file name
 #
-	def catchByURL(self, urlOfPage, fileName):
+	@staticmethod
+	def catchByURL(urlOfPage, fileName):
+		print("update " + fileName[13:-3])
 		if not os.path.exists(DATA_DIRECTORY):
 			os.makedirs(DATA_DIRECTORY)
 		try:
 			os.remove(fileName)
 		except:
 			None
-		with open(fileName, 'a+') as targetFile:
-			targetFile.write("")
+		with open(fileName, 'w') as targetFile:
 			targetFile.close()
 		try:
 			urllib.urlretrieve(urlOfPage, fileName)
@@ -107,6 +104,6 @@ class CatchData:
 
 
 if __name__ == "__main__":
-	CatchData().catchByName(TEST_NAME)
-	CatchData().catchByName("YHOO")
+	CatchData.catchByName("AAPL")
+	CatchData.catchByName("YHOO")
 	None
