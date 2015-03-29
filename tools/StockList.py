@@ -20,7 +20,7 @@ class StockList:
 # Fetch all stocks
 #
 	@staticmethod
-	def fetchALL():
+	def getALL():
 		result = []
 		try:
 			targetFile = open(CONFIG_FILE_NAME, 'r')
@@ -73,12 +73,12 @@ class StockList:
 
 if __name__ == "__main__":
 	StockList.removeAll()
-	print(StockList.fetchALL())
+	print(StockList.getALL())
 	StockList.addStock("AAPL")
 	StockList.addStock("YHOO")
-	print(StockList.fetchALL())
+	print(StockList.getALL())
 	StockList.addStockList(['GOOG', 'MSFT', 'FB', 'ORCL'])
-	print(StockList.fetchALL())
-	print(StockList.fetchALL())
+	print(StockList.getALL())
+	print(StockList.getALL())
 	StockList.updateAll()
 	None
