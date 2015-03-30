@@ -9,9 +9,7 @@
 #		@static doAll
 #
 
-from CatchData import *
-
-ROOT_DIRECTORY = "./../"
+ROOT_DIRECTORY = "./"
 DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
 CONFIG_FILE_NAME = DATA_DIRECTORY + "list.config"
 
@@ -20,7 +18,7 @@ class StockList:
 # Fetch all stocks
 #
 	@staticmethod
-	def getALL():
+	def getAll():
 		result = []
 		try:
 			targetFile = open(CONFIG_FILE_NAME, 'r')
@@ -62,25 +60,31 @@ class StockList:
 # Do the same action to all the stocks in the list
 #
 	@staticmethod
-	def doAll(action):
+	def doAll(action, args):
 		result = []
 		try:
 			targetFile = open(CONFIG_FILE_NAME, 'r')
 			for line in targetFile:
-				result.append(action(line[:-1]))
+				if args is None:
+					result.append({line[:-1] : action(line[:-1])})
+				else:
+					result.append({line[:-1] : action(line[:-1], *args)})
 			targetFile.close()
 			return result
 		except:
 			return result
 
-if __name__ == "__main__":
-	StockList.removeAll()
-	print(StockList.getALL())
-	StockList.addStock("AAPL")
-	StockList.addStock("YHOO")
-	print(StockList.getALL())
-	StockList.addStockList(['GOOG', 'MSFT', 'FB', 'ORCL'])
-	print(StockList.getALL())
-	print(StockList.getALL())
-	StockList.doAll(CatchData.catchByName)
-	None
+#
+#
+#
+#if __name__ == "__main__":
+#	StockList.removeAll()
+#	print(StockList.getAll())
+#	StockList.addStock("AAPL")
+#	StockList.addStock("YHOO")
+#	print(StockList.getAll())
+#	StockList.addStockList(['GOOG', 'MSFT', 'FB', 'ORCL'])
+#	print(StockList.getAll())
+#	print(StockList.getAll())
+#	StockList.doAll(CatchData.catchByName)
+#	None

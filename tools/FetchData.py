@@ -2,9 +2,10 @@
 # FetchData class
 #
 
-ROOT_DIRECTORY = "./../"
-DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
+from DataType import *
 
+ROOT_DIRECTORY = "./"
+DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
 
 class FetchData:
 	@staticmethod
@@ -23,20 +24,13 @@ class FetchData:
 			return result
 
 	@staticmethod
-	def fetchByNameAndPeriodUpToNowByType(stockname, period, type):
-		typeId = {
-		"Date" : 0,
-		"Open" : 1,
-		"High" : 2,
-		"Low" : 3,
-		"Close" : 4,
-		"Volume" : 5,
-		"Adj Close" : 6,
- 		}.get(type, -1)
+	def fetchByNameAndPeriodUpToNowByType(stockname, period, dataType):
+		typeId = DataType.getTypeID(dataType)
  		if typeId is -1:
  			return []
  		result = []
  		fileName = DATA_DIRECTORY + stockname + ".csv"
+ 		targetFile = open(fileName, 'r')
  		try:
  			targetFile = open(fileName, 'r')
  			count = period
@@ -53,8 +47,9 @@ class FetchData:
  		except:
  			return []
 
-
-
-if __name__ == "__main__":
+#
+#
+#
+#if __name__ == "__main__":
 #	print(FetchData.fetchByName("AAPL"))
-	print(FetchData.fetchByNameAndPeriodUpToNowByType("AAPL", 50, "Close"))
+#	print(FetchData.fetchByNameAndPeriodUpToNowByType("C", 100, "Open"))

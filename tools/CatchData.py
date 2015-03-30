@@ -13,7 +13,7 @@ import os
 import os.path
 import datetime
 
-ROOT_DIRECTORY = "./../"
+ROOT_DIRECTORY = "./"
 DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
 HISTORY_DATA_CSV_URL_DOMAIN = "http://real-chart.finance.yahoo.com/table.csv?s="
 
@@ -55,7 +55,7 @@ class CatchData:
 #
 	@staticmethod
 	def catchByURL(urlOfPage, fileName):
-		print("update " + fileName[13:-3])
+		print("update " + fileName[10:-3])
 		if not os.path.exists(DATA_DIRECTORY):
 			os.makedirs(DATA_DIRECTORY)
 		try:
@@ -102,8 +102,10 @@ class CatchData:
 		return returnList
 
 
-
-if __name__ == "__main__":
-	CatchData.catchByName("AAPL")
-	CatchData.catchByName("YHOO")
-	None
+#
+#
+#
+#if __name__ == "__main__":
+#	CatchData.catchByName("AAPL")
+#	CatchData.catchByName("YHOO")
+#	None
