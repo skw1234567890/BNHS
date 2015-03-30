@@ -6,7 +6,7 @@
 #		@static addStock
 #		@static addStockList
 #		@static removeAll
-#		@static updateAll
+#		@static doAll
 #
 
 from CatchData import *
@@ -59,17 +59,14 @@ class StockList:
 			targetFile.close()
 
 #
-# Updating all stocks in my list
+# Do the same action to all the stocks in the list
 #
 	@staticmethod
-	def updateAll():
-		try:
-			targetFile = open(CONFIG_FILE_NAME, 'r')
-			for line in targetFile:
-				CatchData.catchByName(line[:-1])
-			targetFile.close()
-		except:
-			None
+	def doAll(action):
+		targetFile = open(CONFIG_FILE_NAME, 'r')
+		for line in targetFile:
+			action(line[:-1])
+		targetFile.close()
 
 if __name__ == "__main__":
 	StockList.removeAll()
@@ -80,5 +77,5 @@ if __name__ == "__main__":
 	StockList.addStockList(['GOOG', 'MSFT', 'FB', 'ORCL'])
 	print(StockList.getALL())
 	print(StockList.getALL())
-	StockList.updateAll()
+	StockList.doAll(CatchData.catchByName)
 	None

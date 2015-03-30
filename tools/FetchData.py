@@ -22,5 +22,39 @@ class FetchData:
 		except:
 			return result
 
+	@staticmethod
+	def fetchByNameAndPeriodUpToNowByType(stockname, period, type):
+		typeId = {
+		"Date" : 0,
+		"Open" : 1,
+		"High" : 2,
+		"Low" : 3,
+		"Close" : 4,
+		"Volume" : 5,
+		"Adj Close" : 6,
+ 		}.get(type, -1)
+ 		if typeId is -1:
+ 			return []
+ 		result = []
+ 		fileName = DATA_DIRECTORY + stockname + ".csv"
+ 		try:
+ 			targetFile = open(fileName, 'r')
+ 			count = period
+ 			for line in targetFile:
+ 				if typeId is not 6:
+ 					result.append(line.split(",")[typeId])
+ 				else:
+ 					result.append(line.split(",")[typeId][:-1])
+ 				count -= 1
+ 				if count < 0:
+ 					break
+ 			targetFile.close()
+ 			return result[1:]
+ 		except:
+ 			return []
+
+
+
 if __name__ == "__main__":
-	print(FetchData.fetchByName("AAPL"))
+#	print(FetchData.fetchByName("AAPL"))
+	print(FetchData.fetchByNameAndPeriodUpToNowByType("AAPL", 50, "Close"))
