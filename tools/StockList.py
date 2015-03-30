@@ -63,10 +63,15 @@ class StockList:
 #
 	@staticmethod
 	def doAll(action):
-		targetFile = open(CONFIG_FILE_NAME, 'r')
-		for line in targetFile:
-			action(line[:-1])
-		targetFile.close()
+		result = []
+		try:
+			targetFile = open(CONFIG_FILE_NAME, 'r')
+			for line in targetFile:
+				result.append(action(line[:-1]))
+			targetFile.close()
+			return result
+		except:
+			return result
 
 if __name__ == "__main__":
 	StockList.removeAll()
