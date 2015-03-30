@@ -38,6 +38,7 @@ class StockList:
 			targetFile = open(CONFIG_FILE_NAME, 'r')
 			for line in targetFile:
 				if line[:-1] is stockName:
+					targetFile.close()
 					return
 			targetFile.close()
 			with open(CONFIG_FILE_NAME, 'a+') as target:
