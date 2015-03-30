@@ -34,19 +34,25 @@ class StockList:
 #
 	@staticmethod
 	def addStock(stockName):
-		with open(CONFIG_FILE_NAME, 'a+') as targetFile:
-			targetFile.write(stockName + "\n")
+		try:
+			targetFile = open(CONFIG_FILE_NAME, 'r')
+			for line in targetFile:
+				if line[:-1] is stockName:
+					return
 			targetFile.close()
+			with open(CONFIG_FILE_NAME, 'a+') as target:
+				target.write(stockName + "\n")
+				target.close()
+		except:
+			None
 
 #
 # Adding a list of stocks to my list
 #
 	@staticmethod
 	def addStockList(stockNameList):
-		with open(CONFIG_FILE_NAME, 'a+') as targetFile:
-			for e in stockNameList:
-				targetFile.write(e + "\n")
-			targetFile.close()
+		for e in stockNameList:
+			StockList.addStock(e)
 
 #
 # Removing all stocks from my list
@@ -83,7 +89,7 @@ class StockList:
 #	StockList.addStock("AAPL")
 #	StockList.addStock("YHOO")
 #	print(StockList.getAll())
-#	StockList.addStockList(['GOOG', 'MSFT', 'FB', 'ORCL'])
+#	StockList.addStockList(['A', 'B', 'C', 'D'])
 #	print(StockList.getAll())
 #	print(StockList.getAll())
 #	StockList.doAll(CatchData.catchByName)
