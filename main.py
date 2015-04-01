@@ -6,6 +6,7 @@ from StockList import *
 from CatchData import *
 from FetchData import *
 from DataType import *
+from AvgData import *
 
 from SampleModel import *
 
