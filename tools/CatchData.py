@@ -16,6 +16,8 @@ import datetime
 ROOT_DIRECTORY = "./"
 DATA_DIRECTORY = ROOT_DIRECTORY + "./datas/"
 HISTORY_DATA_CSV_URL_DOMAIN = "http://real-chart.finance.yahoo.com/table.csv?s="
+HISTORY_DIVIDEND_CSV_URL_DOMAIN = "http://real-chart.finance.yahoo.com/table.csv?s="
+
 
 class CatchData:
 #
@@ -58,16 +60,58 @@ class CatchData:
 		print("update " + fileName[10:-3])
 		if not os.path.exists(DATA_DIRECTORY):
 			os.makedirs(DATA_DIRECTORY)
-		try:
-			os.remove(fileName)
-		except:
-			None
 		with open(fileName, 'w') as targetFile:
 			targetFile.close()
 		try:
 			urllib.urlretrieve(urlOfPage, fileName)
 		except:
 			None
+
+
+	@staticmethod
+	def catchDividendByNameAndDate(stockName, fromYear, fromMonth, fromDay, toYear, toMonth, toDay):
+		fileName = DATA_DIRECTORY + stockName + "_DIVIDEND.csv"
+		CatchData.catchDividendByNameAndDateToSpecificFile(stockName, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName)
+
+	@staticmethod
+	def catchDividendByNameAndDateToSpecificFile(stockName, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fileName):
+		urlOfPage = HISTORY_DIVIDEND_CSV_URL_DOMAIN + stockName +  "&a=" + str(fromMonth - 1) + "&b=" + str(fromDay) + "&c=" + str(fromYear) + "&d=" + str(toMonth - 1) + "&e=" + str(toDay) + "&f=" + str(toYear) + "&g=v&ignore=.csv"
+		CatchData.catchDividendByURL(urlOfPage, fileName)
+
+	@staticmethod
+	def catchDividendByName(stockName):
+		fileName = DATA_DIRECTORY + stockName + "_DIVIDEND.csv"
+		CatchData.catchDividendByNameToSpecificFile(stockName, fileName)
+
+	@staticmethod
+	def catchDividendByNameToSpecificFile(stockName, fileName):
+		now = datetime.datetime.now()
+		CatchData.catchDividendByNameAndDateToSpecificFile(stockName, 1980, 12, 12, now.year, now.month, now.day, fileName)
+
+	@staticmethod
+	def catchDividendByURL(urlOfPage, fileName):
+		print("update " + fileName)
+		if not os.path.exists(DATA_DIRECTORY):
+			os.makedirs(DATA_DIRECTORY)
+		with open(fileName, 'w') as targetFile:
+			targetFile.close()
+		try:
+			urllib.urlretrieve(urlOfPage, fileName)
+		except:
+			None
+
+#TODO
+	@staticmethod
+	def catchSplitByName(stockName):
+		None
+
+	@staticmethod
+	def catchSplitByNameToSepcificFile(stockName, fileName):
+		None
+
+	@staticmethod
+	def catchSplitByURL(urlOfPage, fileName):
+		None
 
 #
 # Not used
